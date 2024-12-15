@@ -23,10 +23,7 @@ namespace JConsole
 
         #region Public API
 
-        public virtual async void Run()
-        {
-            await Task.CompletedTask;
-        }
+        public abstract void Run();
 
         public void WriteHeaderToConsole()
         {
