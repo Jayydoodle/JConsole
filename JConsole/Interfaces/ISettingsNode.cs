@@ -8,6 +8,6 @@ namespace JConsole
 {
     public interface ISettingsNode
     {
-        public static abstract List<T> GetAll<T>() where T: class;
+        public static abstract List<T> GetAll<T>() where T : class;
     }
 }

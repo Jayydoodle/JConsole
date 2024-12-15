@@ -16,7 +16,7 @@ namespace JConsole
         {
             Type enumerableType = items.GetType().GenericTypeArguments[0];
             Type filterType = typeof(ListFilter<>).MakeGenericType(enumerableType);
-            
+
             object listFilter = Activator.CreateInstance(filterType, new object[] { items, true });
 
             MethodInfo displayMethod = typeof(TableDisplay).GetMethods().First(x => x.IsGenericMethod && x.Name == nameof(BuildDisplay));

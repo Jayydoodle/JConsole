@@ -13,7 +13,7 @@ namespace JConsole
         {
             AnsiConsole.WriteLine();
 
-            Rule rule = new Rule(string.Format("\n[red]Exception[/]\n")).DoubleBorder<Rule>();
+            Rule rule = new Rule(string.Format("\n[red]Exception[/]\n")).DoubleBorder();
             AnsiConsole.Write(rule);
             AnsiConsole.WriteException(exception);
 
@@ -26,14 +26,14 @@ namespace JConsole
             {
                 Exception e = exception.InnerException;
 
-                while(e != null) 
+                while (e != null)
                 {
                     AnsiConsole.WriteException(e);
                     e = e.InnerException;
                 }
             }
 
-            rule = new Rule(string.Format("\n[red]Exception End[/]\n")).DoubleBorder<Rule>();
+            rule = new Rule(string.Format("\n[red]Exception End[/]\n")).DoubleBorder();
             AnsiConsole.Write(rule);
 
             AnsiConsole.WriteLine();
@@ -43,12 +43,12 @@ namespace JConsole
         {
             AnsiConsole.WriteLine();
 
-            Rule rule = new Rule(string.Format("\n[orange1]Warning[/]\n")).DoubleBorder<Rule>();
+            Rule rule = new Rule(string.Format("\n[orange1]Warning[/]\n")).DoubleBorder();
             AnsiConsole.Write(rule);
 
             AnsiConsole.MarkupLine(message);
 
-            rule = new Rule(string.Format("\n[orange1]Warning End[/]\n")).DoubleBorder<Rule>();
+            rule = new Rule(string.Format("\n[orange1]Warning End[/]\n")).DoubleBorder();
             AnsiConsole.Write(rule);
 
             AnsiConsole.WriteLine();

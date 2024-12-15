@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JConsole
 {
-    public static class WebSearch
+    public static class WebUtil
     {
         public static List<string> GetGoogleResults(string query, string searchKey)
         {

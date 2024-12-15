@@ -1,5 +1,4 @@
-﻿using JConsole;
-using Spectre.Console;
+﻿using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -21,29 +20,24 @@ namespace JConsole
 
         #endregion
 
-        #region Public API
+        #region Abstract API
 
-        public abstract void Run();
-
-        public void WriteHeaderToConsole()
-        {
-            AnsiConsole.Clear();
-
-            Rule rule = new Rule(string.Format("[red]{0}[/]", DisplayName)).LeftJustified();
-            AnsiConsole.Write(rule);
-            AnsiConsole.WriteLine();
-
-            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to return to the main menu.", GlobalConstants.Commands.MENU));
-            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to end the current operation and return to the {1} menu.", GlobalConstants.Commands.CANCEL, DisplayName));
-            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to quit.", GlobalConstants.Commands.EXIT));
-            AnsiConsole.Write("\n\n");
-        }
+        protected abstract List<MenuOption> GetMenuOptions();
+        protected abstract bool Initialize();
 
         #endregion
 
-        #region Protected API
+        #region Private API
 
-        protected void RunProgramLoop()
+        private void Run()
+        {
+            bool initialized = Initialize();
+
+            if (initialized)
+                RunProgramLoop();
+        }
+
+        private void RunProgramLoop()
         {
             SelectionPrompt<MenuOption> prompt = new SelectionPrompt<MenuOption>();
             prompt.Title = "Select an option:";
@@ -89,16 +83,19 @@ namespace JConsole
             }
         }
 
-        protected abstract List<MenuOption> GetMenuOptions();
-
-        public static MenuOption GetHelpOption()
+        private void WriteHeaderToConsole()
         {
-            return new MenuOption<List<MenuOption>, bool>(GlobalConstants.SelectionOptions.Help, PrintHelpText);
+            AnsiConsole.Clear();
+
+            Rule rule = new Rule(string.Format("[red]{0}[/]", DisplayName)).LeftJustified();
+            AnsiConsole.Write(rule);
+            AnsiConsole.WriteLine();
+
+            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to return to the main menu.", GlobalConstants.Commands.MENU));
+            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to end the current operation and return to the {1} menu.", GlobalConstants.Commands.CANCEL, DisplayName));
+            AnsiConsole.MarkupLine(string.Format("Enter [bold red]{0}[/] at any time to quit.", GlobalConstants.Commands.EXIT));
+            AnsiConsole.Write("\n\n");
         }
-
-        #endregion
-
-        #region Private API
 
         private static bool PrintHelpText(List<MenuOption> options)
         {
@@ -125,6 +122,15 @@ namespace JConsole
             AnsiConsole.WriteLine();
 
             return true;
+        }
+
+        #endregion
+
+        #region Public API
+
+        public static MenuOption GetHelpOption()
+        {
+            return new MenuOption<List<MenuOption>, bool>(GlobalConstants.SelectionOptions.Help, PrintHelpText);
         }
 
         #endregion

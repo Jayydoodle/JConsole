@@ -52,15 +52,16 @@ namespace JConsole
         {
             XDocument doc = null;
 
-            try 
+            try
             {
                 string xmlText = File.ReadAllText(fileName);
                 xmlText = xmlText.Replace("&", "&amp;");
 
                 TextReader reader = new StringReader(xmlText);
 
-                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { 
-                    CheckCharacters = false, 
+                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
+                {
+                    CheckCharacters = false,
                     IgnoreComments = true,
                     ConformanceLevel = ConformanceLevel.Fragment
                 };
@@ -72,9 +73,9 @@ namespace JConsole
                     doc = XDocument.Load(xmlReader);
                 }
             }
-            catch (Exception e) 
-            { 
-                return null; 
+            catch (Exception e)
+            {
+                return null;
             }
 
             XMLFile file = new XMLFile();

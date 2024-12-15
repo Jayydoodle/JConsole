@@ -80,7 +80,7 @@ namespace JConsole
                 if (typeof(IEnumerable).IsAssignableFrom(type))
                 {
                     Type underlyingType = type.GenericTypeArguments[0];
-                    return useStrictCompatability ? false : IsCompatible(underlyingType, otherType);
+                    return useStrictCompatability ? false : underlyingType.IsCompatible(otherType);
                 }
 
                 Type nullableType = Nullable.GetUnderlyingType(type);
@@ -90,20 +90,20 @@ namespace JConsole
             {
                 // do the above, but opposite
 
-                return IsCompatible(otherType, type);
+                return otherType.IsCompatible(type);
             }
             else if (typeof(ICollection).IsAssignableFrom(type) && !typeof(ICollection).IsAssignableFrom(otherType))
             {
                 // Ex. EList<int> and int?
 
                 Type underlyingType = type.GenericTypeArguments[0];
-                return useStrictCompatability ? false : IsCompatible(underlyingType, otherType);
+                return useStrictCompatability ? false : underlyingType.IsCompatible(otherType);
             }
             else if (typeof(ICollection).IsAssignableFrom(otherType) && !typeof(ICollection).IsAssignableFrom(type))
             {
                 // do the above, but opposite
 
-                return IsCompatible(otherType, type);
+                return otherType.IsCompatible(type);
             }
             else if (typeof(ICollection).IsAssignableFrom(type) && typeof(ICollection).IsAssignableFrom(otherType))
             {
@@ -112,7 +112,7 @@ namespace JConsole
                 Type underlyingType = type.GenericTypeArguments[0];
                 Type underlyingOtherType = otherType.GenericTypeArguments[0];
 
-                compatible = IsCompatible(underlyingType, underlyingOtherType);
+                compatible = underlyingType.IsCompatible(underlyingOtherType);
             }
 
             return compatible;
@@ -129,14 +129,14 @@ namespace JConsole
                 if (task.IsFaulted && logError)
                     task.Exception.LogException();
 
-                return !task.IsFaulted ? await task : default(T);
+                return !task.IsFaulted ? await task : default;
             }
             else
             {
                 if (!task.IsCompleted && onActionTimeout != null)
                     onActionTimeout();
 
-                return default(T);
+                return default;
             }
         }
 
@@ -170,7 +170,7 @@ namespace JConsole
             public override int Compare(object? x, object? y)
             {
                 if (x == null || y == null)
-                    return Object.Equals(x, y) ? 1 : 0;
+                    return Equals(x, y) ? 1 : 0;
 
                 bool isXNumeric = double.TryParse(x.ToString(), out double xN);
                 bool isYNumeric = double.TryParse(y.ToString(), out double yN);
@@ -181,7 +181,7 @@ namespace JConsole
                 if (x is IComparable && y is IComparable)
                     return ((IComparable)x).CompareTo((IComparable)y);
 
-                return Object.Equals(x, y) ? 1 : 0;
+                return Equals(x, y) ? 1 : 0;
             }
         }
 

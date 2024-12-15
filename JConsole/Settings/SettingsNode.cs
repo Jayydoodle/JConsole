@@ -22,7 +22,7 @@ namespace JConsole
     where T : class
     {
         public static List<T> GetAll<T>()
-        where T: class
+        where T : class
         {
             List<T> items = new List<T>();
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JConsole
 {
-    public class EditOptions<T>
+    public class EditOption<T>
     {
         #region Properties
 
@@ -21,7 +21,7 @@ namespace JConsole
 
         #region Constructor
 
-        public EditOptions(bool canEdit = true, bool allowProtectedEdit = false)
+        public EditOption(bool canEdit = true, bool allowProtectedEdit = false)
         {
             MemberEditabilityLookup = new Dictionary<string, bool>();
             AllowProtectedEdit = allowProtectedEdit;
@@ -55,14 +55,14 @@ namespace JConsole
             return value;
         }
 
-        public static EditOptions<T> Prompt(bool allowProtecedEdit = false)
+        public static EditOption<T> Prompt(bool allowProtecedEdit = false)
         {
             MultiSelectionPrompt<EditOptionChoice<T>> prompt = new MultiSelectionPrompt<EditOptionChoice<T>>();
             prompt.Title = "\nSelect the fields you wish to edit";
             prompt.InstructionsText = "[grey](Press [blue]<space>[/] to toggle an option, [green]<enter>[/] to begin)[/]\n";
             prompt.PageSize = 20;
 
-            EditOptions<T> options = new EditOptions<T>(false, allowProtecedEdit);
+            EditOption<T> options = new EditOption<T>(false, allowProtecedEdit);
 
             foreach (PropertyInfo prop in options.GetProperties())
             {
@@ -178,7 +178,7 @@ namespace JConsole
 
         public string DisplayName { get; set; }
         public string Value { get; set; }
-        public Func<T, bool> Action { get; set; }   
+        public Func<T, bool> Action { get; set; }
 
         #endregion
 

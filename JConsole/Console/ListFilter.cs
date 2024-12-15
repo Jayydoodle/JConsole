@@ -12,7 +12,7 @@ namespace JConsole
     {
         #region Constants
 
-        public const string TextMatch = "TextMatch";
+        public const string TextMatchOption = "TextMatch";
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace JConsole
                     continue;
                 }
 
-                if (choice.Value == TextMatch)
+                if (choice.Value == TextMatchOption)
                 {
                     GetPartialTextMatchFilter();
                     continue;
@@ -103,7 +103,7 @@ namespace JConsole
                 PropertyInfo prop = typeof(T).GetProperty(pair.Key);
 
                 if (prop == null)
-                    throw new Exception(String.Format("The type '{0}' does not contain a property named '{1}'", typeof(T).Name, pair.Key));
+                    throw new Exception(string.Format("The type '{0}' does not contain a property named '{1}'", typeof(T).Name, pair.Key));
 
                 if (pair.Value != null && pair.Value.Any())
                     filteredList = filteredList.Where(x => pair.Value.Contains(prop.GetValue(x)));
@@ -120,12 +120,12 @@ namespace JConsole
 
         protected EditOptionChoice<T> OrderByOption()
         {
-            return new EditOptionChoice<T>("Use Custom Ordering", nameof(ListFilter.OrderBys));
+            return new EditOptionChoice<T>("Use Custom Ordering", nameof(OrderBys));
         }
 
         protected EditOptionChoice<T> PartialTextMatchOption()
         {
-            return new EditOptionChoice<T>("Use Partial Text Match", ListFilter.TextMatch);
+            return new EditOptionChoice<T>("Use Partial Text Match", TextMatchOption);
         }
 
         protected void AddFilter(string propertyName, EditOptionChoice<T> choice)
@@ -238,7 +238,7 @@ namespace JConsole
         protected string GetPartialTextMatchInput(string fieldName)
         {
             string message = string.Format("Enter in the partial text match you want to perform on the [blue]{0}[/] field: ", fieldName);
-            string input = Utilities.GetInput(message, x => !string.IsNullOrEmpty(x));
+            string input = ConsoleUtil.GetInput(message, x => !string.IsNullOrEmpty(x));
 
             return input;
         }

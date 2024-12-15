@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace JConsole.Settings
+namespace JConsole
 {
     public static class XMLSettings
     {
@@ -28,7 +28,7 @@ namespace JConsole.Settings
                 if (string.IsNullOrEmpty(prompt))
                     prompt = node.GetPrompt();
 
-                info = Utilities.GetFileSystemInfoFromInput<U>(prompt, isRequired);
+                info = FileUtil.GetFileSystemInfoFromInput<U>(prompt, isRequired);
 
                 if (info != null && info.Exists)
                     Update(node, info.FullName);
@@ -55,7 +55,7 @@ namespace JConsole.Settings
         public static DirectoryInfo GetDirectoryFromNode<T>(T node, string expectedPath)
         where T : SettingsNode, ISettingsNode
         {
-            DirectoryInfo dir = XMLSettings.GetDirectory(node);
+            DirectoryInfo dir = GetDirectory(node);
             string path = Path.Combine(dir.FullName, expectedPath);
             DirectoryInfo targetDir = new DirectoryInfo(path);
 
@@ -64,7 +64,7 @@ namespace JConsole.Settings
                 string message = string.Format("The target folder is expected at the path [red]{1}[/], but the directory does " +
                 "not exist.  Please enter the correct path: ", path);
 
-                path = Utilities.GetInput(message, x => !string.IsNullOrEmpty(x));
+                path = ConsoleUtil.GetInput(message, x => !string.IsNullOrEmpty(x));
                 targetDir = new DirectoryInfo(path);
             }
 
@@ -97,7 +97,7 @@ namespace JConsole.Settings
                     settings.Prompt = node.GetPrompt();
 
                 settings.Validator = x => !string.IsNullOrEmpty(x);
-                value = Utilities.GetInput(settings);
+                value = ConsoleUtil.GetInput(settings);
 
                 if (ValidationFunction != null)
                     validated = ValidationFunction(node, value);
