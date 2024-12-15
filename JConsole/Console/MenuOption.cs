@@ -50,13 +50,32 @@ namespace JConsole
     {
         #region Properties
 
+        public new Action<T> Function { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public MenuOption(string displayName, Action<T> function)
+        {
+            DisplayName = displayName;
+            Function = function;
+        }
+
+        #endregion
+    }
+
+    public class SelectMenuOption<T> : MenuOption
+    {
+        #region Properties
+
         public new Func<T> Function { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public MenuOption(string displayName, Func<T> function)
+        public SelectMenuOption(string displayName, Func<T> function)
         {
             DisplayName = displayName;
             Function = function;
@@ -66,37 +85,9 @@ namespace JConsole
 
         #region Public API
 
-        public static new MenuOption<T> CancelOption(string text = null)
+        public static new SelectMenuOption<T> CancelOption(string text = null)
         {
-            return new MenuOption<T>(text ?? GlobalConstants.SelectionOptions.Cancel, () => throw new Exception(GlobalConstants.Commands.CANCEL));
-        }
-
-        #endregion
-    }
-
-    public class MenuOption<T, U> : MenuOption
-    {
-        #region Properties
-
-        public new Func<T, U> Function { get; set; }
-
-        #endregion
-
-        #region Constructor
-
-        public MenuOption(string displayName, Func<T, U> function)
-        {
-            DisplayName = displayName;
-            Function = function;
-        }
-
-        #endregion
-
-        #region Public API
-
-        public static MenuOption<T, U> CancelOption()
-        {
-            return new MenuOption<T, U>(GlobalConstants.SelectionOptions.Cancel, (T) => throw new Exception(GlobalConstants.Commands.CANCEL));
+            return new SelectMenuOption<T>(text ?? GlobalConstants.SelectionOptions.Cancel, () => throw new Exception(GlobalConstants.Commands.CANCEL));
         }
 
         #endregion

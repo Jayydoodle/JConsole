@@ -25,6 +25,11 @@ namespace JConsole
                 yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
         }
 
+        public static bool IsNumeric(this string str)
+        {
+            return str != null && str.All(x => char.IsDigit(x));
+        }
+
         #endregion
 
         #region Type Extensions

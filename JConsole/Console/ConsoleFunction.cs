@@ -31,10 +31,22 @@ namespace JConsole
 
         private void Run()
         {
-            bool initialized = Initialize();
+            bool initialized = false;
+
+            try
+            {
+                initialized = Initialize();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             if (initialized)
+            {
+                WriteHeaderToConsole();
                 RunProgramLoop();
+            }
         }
 
         private void RunProgramLoop()
@@ -60,7 +72,7 @@ namespace JConsole
                     try
                     {
                         if (option.IsHelpOption)
-                            ((MenuOption<List<MenuOption>, bool>)option).Function(options);
+                            ((MenuOption<List<MenuOption>>)option).Function(options);
                         else
                             option.Function();
                     }
@@ -83,7 +95,7 @@ namespace JConsole
             }
         }
 
-        private void WriteHeaderToConsole()
+        protected virtual void WriteHeaderToConsole()
         {
             AnsiConsole.Clear();
 
@@ -97,7 +109,7 @@ namespace JConsole
             AnsiConsole.Write("\n\n");
         }
 
-        private static bool PrintHelpText(List<MenuOption> options)
+        private static void PrintHelpText(List<MenuOption> options)
         {
             Rule rule = new Rule("[pink1]Help[/]");
             rule.RuleStyle("blue");
@@ -120,8 +132,6 @@ namespace JConsole
             rule.RuleStyle("blue");
             AnsiConsole.Write(rule);
             AnsiConsole.WriteLine();
-
-            return true;
         }
 
         #endregion
@@ -130,7 +140,7 @@ namespace JConsole
 
         public static MenuOption GetHelpOption()
         {
-            return new MenuOption<List<MenuOption>, bool>(GlobalConstants.SelectionOptions.Help, PrintHelpText);
+            return new MenuOption<List<MenuOption>>(GlobalConstants.SelectionOptions.Help, PrintHelpText);
         }
 
         #endregion

@@ -187,7 +187,7 @@ namespace JConsole
                 if (e.GetType() == typeof(FileNotFoundException))
                     AnsiConsole.MarkupLine("The file [red]{0}[/] does not exist.", filePath);
                 else
-                    Console.WriteLine(e.ToString());
+                    AnsiConsole.WriteLine(e.ToString());
             }
 
             return textEntries;
@@ -214,7 +214,7 @@ namespace JConsole
                 if (e.GetType() == typeof(FileNotFoundException))
                     AnsiConsole.MarkupLine("The file [red]{0}[/] does not exist.", fileName);
                 else
-                    Console.WriteLine(e.ToString());
+                    AnsiConsole.WriteLine(e.ToString());
             }
         }
 
