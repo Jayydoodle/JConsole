@@ -57,7 +57,6 @@ namespace JConsole.Console
                         if (e.Message == GlobalConstants.Commands.EXIT)
                             break;
                         else
-
                             AnsiConsole.Clear();
 
                         if (e.Message != GlobalConstants.Commands.MENU)

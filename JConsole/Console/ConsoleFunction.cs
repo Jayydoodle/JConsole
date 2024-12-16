@@ -51,20 +51,21 @@ namespace JConsole
 
         private void RunProgramLoop()
         {
-            SelectionPrompt<MenuOption> prompt = new SelectionPrompt<MenuOption>();
-            prompt.Title = "Select an option:";
-            prompt.PageSize = 15;
-            List<MenuOption> options = GetMenuOptions();
-
-            if (options.Any(x => x.Function != null && x.Function.Method.HasAttribute<DocumentationAttribute>()))
-                options.Add(GetHelpOption());
-
-            options.Add(new MenuOption(GlobalConstants.SelectionOptions.ReturnToMainMenu, () => throw new Exception(GlobalConstants.Commands.MENU)));
-
-            prompt.AddChoices(options);
-
             while (true)
             {
+                SelectionPrompt<MenuOption> prompt = new SelectionPrompt<MenuOption>();
+                prompt.Title = "Select an option:";
+                prompt.PageSize = 15;
+
+                List<MenuOption> options = GetMenuOptions();
+
+                if (options.Any(x => x.Function != null && x.Function.Method.HasAttribute<DocumentationAttribute>()))
+                    options.Add(GetHelpOption());
+
+                options.Add(new MenuOption(GlobalConstants.SelectionOptions.ReturnToMainMenu, () => throw new Exception(GlobalConstants.Commands.MENU)));
+
+                prompt.AddChoices(options);
+
                 MenuOption option = AnsiConsole.Prompt(prompt);
 
                 if (option.Function != null || option.IsHelpOption)
