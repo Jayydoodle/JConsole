@@ -156,12 +156,8 @@ namespace JConsole
                 else
                 {
                     task.Exception.LogException();
-                    await Task.CompletedTask;
+                    return;
                 }
-            }
-            else
-            {
-                await Task.CompletedTask;
             }
         }
 

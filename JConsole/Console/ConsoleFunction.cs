@@ -16,6 +16,7 @@ namespace JConsole
         #region Base Class Overrides
 
         public abstract override string DisplayName { get; }
+        public abstract string Documentation { get; }
         public override Action Function { get => Run; }
 
         #endregion
@@ -119,7 +120,13 @@ namespace JConsole
 
             options.ForEach(x =>
             {
-                if (x.Function != null && x.Function.Method.HasAttribute<DocumentationAttribute>())
+                if(x is ConsoleFunction function)
+                {
+                    AnsiConsole.MarkupLine("[green]{0}[/]", function.DisplayName);
+                    AnsiConsole.MarkupLine(function.Documentation);
+                    AnsiConsole.WriteLine();
+                }
+                else if (x.Function != null && x.Function.Method.HasAttribute<DocumentationAttribute>())
                 {
                     AnsiConsole.MarkupLine("[green]{0}[/]", x.DisplayName);
 
